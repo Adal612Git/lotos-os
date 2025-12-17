@@ -48,6 +48,7 @@ const Game = () => {
   const [systemScore, setSystemScore] = useState(0);
   const directionRef = useRef<Direction>("RIGHT");
   const foodRef = useRef<Position>(DEFAULT_FOOD);
+  const latestLengthRef = useRef<number>(createInitialSnake().length);
 
   useEffect(() => {
     directionRef.current = direction;
@@ -56,6 +57,10 @@ const Game = () => {
   useEffect(() => {
     foodRef.current = food;
   }, [food]);
+
+  useEffect(() => {
+    latestLengthRef.current = snake.length;
+  }, [snake.length]);
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -113,7 +118,6 @@ const Game = () => {
 
         if (hitWall || hitSelf) {
           setStatus("lost");
-          setSystemScore((prevScore) => prevScore + Math.max(12, prev.length * 3));
           return prev;
         }
 
@@ -126,7 +130,6 @@ const Game = () => {
 
         if (nextSnake.length >= MAX_CELLS) {
           setStatus("won");
-          setSystemScore((prevScore) => prevScore + 220);
         }
 
         return nextSnake;
@@ -141,6 +144,14 @@ const Game = () => {
       unlockSecret();
     }
   }, [status, unlockSecret]);
+
+  useEffect(() => {
+    if (status === "lost") {
+      setSystemScore((prev) => prev + Math.max(12, latestLengthRef.current * 3));
+    } else if (status === "won") {
+      setSystemScore((prev) => prev + 220);
+    }
+  }, [status]);
 
   const restart = () => {
     const freshSnake = createInitialSnake();

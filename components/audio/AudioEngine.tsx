@@ -35,6 +35,7 @@ const AudioEngine = ({ className = "" }: AudioEngineProps) => {
   const volumeRef = useRef(volume);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const handleInteraction = () => {
       setHasInteracted(true);
     };

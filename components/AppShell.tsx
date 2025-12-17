@@ -113,7 +113,12 @@ const AppShell = ({ children }: AppShellProps) => {
                   <span className="relative inline-flex rounded-full h-4 w-4 bg-accent-green" />
                 </span>
                 <div className="flex flex-col leading-none">
-                  <a href="/catalogo.html" target="_blank" rel="noreferrer" className="btn-cta btn-cta--outline font-black">
+                  <a
+                    href="/catalogo.html"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-cta font-black bg-pink-600/30 border border-[#f72585] neon-flicker text-accent-pink"
+                  >
                     CATÁLOGO
                   </a>
                   <span className="text-[8px] uppercase tracking-[0.4em] text-accent-green mt-1">nueva versión disponible</span>
