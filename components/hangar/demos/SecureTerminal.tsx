@@ -59,12 +59,20 @@ const SecureTerminal = () => {
 
       const response = RESPONSES[normalized];
       if (response) {
-        const formatted = response.map((line, index) => ({
-          id: nextId + index + 1,
-          prefix: normalized,
-          message: line,
-          tone: normalized === "scan" && line.includes("ANOMALÍA") ? "alert" : normalized === "status" ? "success" : "muted",
-        }));
+        const formatted: TerminalLog[] = response.map((line, index) => {
+          const tone: TerminalLog["tone"] =
+            normalized === "scan" && line.includes("ANOMALÍA")
+              ? "alert"
+              : normalized === "status"
+              ? "success"
+              : "muted";
+          return {
+            id: nextId + index + 1,
+            prefix: normalized,
+            message: line,
+            tone,
+          };
+        });
         pushEntries(formatted);
       } else {
         pushEntries([
