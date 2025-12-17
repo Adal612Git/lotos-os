@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import SystemWindow from "@/components/hangar/SystemWindow";
 import CRMSim from "@/components/hangar/demos/CRMSim";
 import DataVisualizer from "@/components/hangar/demos/DataVisualizer";
@@ -10,7 +11,7 @@ interface ProjectViewerProps {
   project: Project;
 }
 
-const DEMO_MAP: Record<ProjectDemoType, () => JSX.Element> = {
+const DEMO_MAP: Record<ProjectDemoType, () => React.JSX.Element> = {
   "crm-sim": () => <CRMSim />,
   "secure-terminal": () => <SecureTerminal />,
   "data-visualizer": () => <DataVisualizer />,
