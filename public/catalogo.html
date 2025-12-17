@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Catalog | Lotos Development</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and general configuration */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #2d3748;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            max-width: 100%;
+            font-size: 11pt;
+            min-height: 100vh;
+        }
+        
+        /* A4 page configuration */
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+        
+        .container {
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            margin: 0 auto;
+            padding: 15mm;
+            position: relative;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Prevent page breaks inside elements */
+        .page-break-avoid {
+            page-break-inside: avoid;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 18mm;
+            padding-bottom: 12mm;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36pt;
+            font-weight: 800;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 3mm;
+            letter-spacing: -1px;
+        }
+        
+        .tagline {
+            font-size: 14pt;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 5mm;
+            letter-spacing: 0.5px;
+        }
+        
+        .version {
+            font-size: 9pt;
+            color: #718096;
+            margin-top: 2mm;
+            padding: 6px 12px;
+            background-color: #f7fafc;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        /* Specialties */
+        .specialties {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+            padding: 8mm;
+            margin-bottom: 12mm;
+            page-break-inside: avoid;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        .specialties h3 {
+            font-size: 14pt;
+            font-weight: 700;
+            margin-bottom: 4mm;
+            color: #4c51bf;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .specialties h3 i {
+            font-size: 16pt;
+        }
+        
+        .specialties ul {
+            list-style: none;
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2mm;
+        }
+        
+        .specialties li {
+            margin-bottom: 2mm;
+            padding-left: 5mm;
+            position: relative;
+            font-size: 10pt;
+        }
+        
+        .specialties li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        /* Value section */
+        .value-section {
+            text-align: center;
+            margin-top: 12mm;
+            padding: 8mm;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
+            margin-bottom: 15mm;
+        }
+        
+        .value-title {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 3mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .value-subtitle {
+            font-size: 11pt;
+            opacity: 0.9;
+        }
+        
+        /* Packages and pricing */
+        .section-title {
+            font-size: 20pt;
+            font-weight: 800;
+            margin-bottom: 8mm;
+            padding-bottom: 4mm;
+            border-bottom: 2px solid #e2e8f0;
+            color: #2d3748;
+            page-break-before: always;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .section-title:first-of-type {
+            page-break-before: auto;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .package-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 7mm;
+            margin-bottom: 12mm;
+        }
+        
+        .package-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 8mm;
+            page-break-inside: avoid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);
+        }
+        
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4mm;
+            padding-bottom: 3mm;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .package-name {
+            font-size: 16pt;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .package-badge {
+            background-color: #bee3f8;
+            color: #2c5282;
+            font-size: 8pt;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 5mm;
+            display: inline-block;
+        }
+        
+        .package-price {
+            font-size: 20pt;
+            font-weight: 800;
+            color: #2f855a;
+            text-align: right;
+        }
+        
+        .package-price-sub {
+            font-size: 9pt;
+            color: #718096;
+            font-weight: 500;
+            display: block;
+        }
+        
+        .package-description {
+            font-size: 11pt;
+            color: #4a5568;
+            margin-bottom: 4mm;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .package-features {
+            margin-bottom: 4mm;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-list li {
+            margin-bottom: 2mm;
+            padding-left: 6mm;
+            position: relative;
+            font-size: 10pt;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 11pt;
+        }
+        
+        .package-time {
+            font-size: 10pt;
+            color: #718096;
+            margin-top: 3mm;
+            padding-top: 3mm;
+            border-top: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .package-note {
+            font-size: 9pt;
+            color: #805ad5;
+            margin-top: 3mm;
+            font-style: italic;
+            padding: 4mm;
+            background-color: #faf5ff;
+            border-radius: 6px;
+            border-left: 3px solid #9f7aea;
+        }
+        
+        /* Tables for Add-ons */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10mm;
+            font-size: 10pt;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .table thead {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .table th {
+            text-align: left;
+            padding: 4mm;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .table td {
+            padding: 3mm 4mm;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #edf2f7;
+        }
+        
+        /* Work process */
+        .process {
+            background: linear-gradient(135deg, #fff9f0 0%, #fff5eb 100%);
+            border: 1px solid #fed7d7;
+            border-radius: 12px;
+            padding: 8mm;
+            margin-bottom: 12mm;
+            page-break-inside: avoid;
+            box-shadow: 0 8px 20px rgba(254, 215, 215, 0.3);
+        }
+        
+        .process-title {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 5mm;
+            color: #dd6b20;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4mm;
+            margin-top: 5mm;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 4mm;
+            background-color: white;
+            border: 1px solid #fed7d7;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(221, 107, 32, 0.15);
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #f6ad55 0%, #dd6b20 100%);
+            color: white;
+            border-radius: 50%;
+            font-size: 12pt;
+            font-weight: 700;
+            line-height: 28px;
+            margin-bottom: 3mm;
+        }
+        
+        .step-text {
+            font-size: 9pt;
+            color: #718096;
+            line-height: 1.4;
+        }
+        
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* Print responsive */
+        @media print {
+            body {
+                background-color: white;
+                font-size: 10pt;
+                background: none;
+            }
+            
+            .container {
+                width: 100%;
+                min-height: auto;
+                padding: 10mm;
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .no-print {
+                display: none;
+            }
+            
+            /* Ensure no color backgrounds in print */
+            .specialties,
+            .process,
+            .package-card,
+            .value-section,
+            .table thead {
+                background-color: transparent !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+            }
+            
+            /* Improve readability in B/W */
+            .package-price {
+                color: #000 !important;
+                font-weight: 800;
+            }
+            
+            .feature-list li:before {
+                color: #000 !important;
+            }
+            
+            /* Avoid page breaks */
+            .page-break-avoid {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Remove hover effects in print */
+            .package-card:hover, .step:hover {
+                transform: none !important;
+                box-shadow: none !important;
+            }
+        }
+        
+        /* Calculation section */
+        .calculation-section {
+            page-break-before: always;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 8mm;
+            margin-top: 12mm;
+        }
+        
+        .calculation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6mm;
+            margin-top: 5mm;
+        }
+        
+        .calc-box {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 5mm;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .calc-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .calc-title {
+            font-size: 12pt;
+            font-weight: 700;
+            margin-bottom: 3mm;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .calc-content {
+            font-size: 10pt;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        /* Footnotes */
+        .footnote {
+            font-size: 9pt;
+            color: #718096;
+            margin-top: 10mm;
+            padding-top: 5mm;
+            border-top: 1px solid #e2e8f0;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        /* Page indicator */
+        .page-number {
+            position: absolute;
+            bottom: 8mm;
+            right: 15mm;
+            font-size: 9pt;
+            color: #a0aec0;
+        }
+        
+        /* Styles for icons */
+        .icon {
+            font-size: 14pt;
+            margin-right: 5px;
+        }
+        
+        /* Section title improvements */
+        .section-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 16pt;
+        }
+        
+        /* Information cards */
+        .info-card {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid #3182ce;
+            border-radius: 8px;
+            padding: 6mm;
+            margin-top: 5mm;
+            margin-bottom: 5mm;
+        }
+        
+        .info-title {
+            font-size: 12pt;
+            font-weight: 700;
+            margin-bottom: 2mm;
+            color: #2c5282;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-content {
+            font-size: 10pt;
+            color: #4a5568;
+        }
+        
+        /* Highlighted guarantee */
+        .guarantee {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border: 2px solid #48bb78;
+            border-radius: 12px;
+            padding: 6mm;
+            margin-top: 8mm;
+            text-align: center;
+        }
+        
+        .guarantee-title {
+            font-size: 14pt;
+            font-weight: 700;
+            margin-bottom: 2mm;
+            color: #276749;
+        }
+        
+        .guarantee-content {
+            font-size: 10pt;
+            color: #2f855a;
+        }
+        
+        /* Currency selector */
+        .currency-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 10pt;
+        }
+        
+        .currency-selector select {
+            border: 1px solid #e2e8f0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Currency selector -->
+    <div class="currency-selector no-print">
+        Display prices in: 
+        <select id="currencySelect">
+            <option value="usd">USD</option>
+            <option value="mxn">MXN</option>
+            <option value="eur">EUR</option>
+        </select>
+    </div>
+    
+    <!-- Print button -->
+    <button class="print-btn no-print" onclick="window.print()">
+        <i class="fas fa-print"></i> Print / Save PDF
+    </button>
+    
+    <!-- Page 1: Cover and specialties -->
+    <div class="container">
+        <div class="header">
+            <div class="logo">LOTOS DEVELOPMENT</div>
+            <div class="tagline">Turning ideas into effective digital solutions</div>
+            <div class="version">Service Catalog • Prices in <span class="currency-display">USD</span></div>
+        </div>
+        
+        <div class="specialties page-break-avoid">
+            <h3><i class="fas fa-bolt"></i> Specialized solutions for your business</h3>
+            <ul>
+                <li>Professional landing pages and corporate websites</li>
+                <li>Web applications / Lightweight CRMs</li>
+                <li>Process automation (n8n integration)</li>
+                <li>Applied AI solutions (chatbots and integrations)</li>
+                <li>Mobile app MVPs (cross-platform)</li>
+                <li>Dockerization and optimized deployment</li>
+            </ul>
+        </div>
+        
+        <div class="value-section">
+            <div class="value-title">
+                <i class="fas fa-medal"></i> Premium quality at competitive prices
+            </div>
+            <div class="value-subtitle">
+                All prices are estimates. Final cost is determined based on the specific scope of your project.
+            </div>
+        </div>
+        
+        <div class="page-number">Page 1</div>
+    </div>
+    
+    <!-- Page 2: Web / Presence -->
+    <div class="container">
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-globe"></i></div>
+            Web Presence
+        </div>
+        
+        <div class="package-grid">
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div>
+                        <div class="package-name">A. Landing Express</div>
+                        <span class="package-badge">MOST POPULAR</span>
+                    </div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="6900" data-usd="400" data-eur="370">$400</span>
+                        <span class="package-price-sub">Starting price</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    A modern, responsive single-page website with contact form, WhatsApp integration, basic SEO, and deployment included.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Modern, fully responsive design</li>
+                        <li>Integrated contact form</li>
+                        <li>Direct WhatsApp button</li>
+                        <li>Basic SEO configuration</li>
+                        <li>Deployment included (Vercel/Netlify)</li>
+                        <li>Performance optimization</li>
+                        <li>14-day initial support</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 3–7 days
+                </div>
+            </div>
+            
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">B. Pro Corporate Website</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="14900" data-usd="850" data-eur="790">$850</span>
+                        <span class="package-price-sub">Includes admin panel</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Professional website with 5–7 custom sections, basic SEO, performance analysis, and Google Analytics configuration.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>5-7 fully customized sections</li>
+                        <li>Professional responsive design</li>
+                        <li>Basic SEO implementation</li>
+                        <li>Google Analytics configuration</li>
+                        <li>Advanced image optimization</li>
+                        <li>Basic admin panel</li>
+                        <li>30-day technical support</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 1–2 weeks
+                </div>
+            </div>
+            
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">C. Pro Website + Blog</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="19900" data-usd="1150" data-eur="1060">$1,150</span>
+                        <span class="package-price-sub">Includes blog system</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Everything from the Pro Website plus a complete blog system with post templates and basic legal pages.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>All features from Pro Website</li>
+                        <li>Integrated blog system</li>
+                        <li>Post templates</li>
+                        <li>3 legal pages (Privacy Policy, Terms, Cookies)</li>
+                        <li>Categories and tags organization</li>
+                        <li>Basic comments (optional)</li>
+                        <li>Advanced SEO for blog</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 2–3 weeks
+                </div>
+            </div>
+            
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">D. E-commerce Lite</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="29900" data-usd="1700" data-eur="1570">$1,700</span>
+                        <span class="package-price-sub">Complete online store</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Functional online store with product catalog, shopping cart, checkout with payment gateway, and admin panel.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Product catalog with categories</li>
+                        <li>Functional shopping cart</li>
+                        <li>Checkout with payment gateway (Stripe/MercadoPago)</li>
+                        <li>Complete admin panel</li>
+                        <li>Basic inventory management</li>
+                        <li>Automatic confirmation emails</li>
+                        <li>Fully responsive and mobile-friendly</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 3–5 weeks
+                </div>
+                <div class="package-note">
+                    <i class="fas fa-info-circle"></i> Market reference: similar e-commerce solutions start from ~$1,000 USD
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-number">Page 2</div>
+    </div>
+    
+    <!-- Page 3: Systems and Automation -->
+    <div class="container">
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-cogs"></i></div>
+            Systems and Automation
+        </div>
+        
+        <div class="package-grid">
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">E. CRM Lite</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="39000" data-usd="2200" data-eur="2040">from $2,200</span>
+                        <span class="package-price-sub">Custom system</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Lightweight CRM system for sales, customer, and task management with user/roles, visual pipeline, and basic reports.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Custom user and role system</li>
+                        <li>Visual, interactive sales pipeline</li>
+                        <li>Complete customer management (CRUD)</li>
+                        <li>Task and reminder system</li>
+                        <li>Basic reports (CSV/Excel export)</li>
+                        <li>Dashboard with key metrics</li>
+                        <li>Advanced search and filters</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 3–6 weeks
+                </div>
+                <div class="package-note">
+                    <i class="fas fa-chart-line"></i> Market: custom software can start from ~$1,700 USD
+                </div>
+            </div>
+            
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">F. Custom System</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="35000" data-usd="2000" data-eur="1850">from $2,000</span>
+                        <span class="package-price-sub">Modular quote</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Development of custom systems by modules according to your specific needs (inventory, billing, logistics, etc.).
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Detailed requirements analysis</li>
+                        <li>Custom architecture design</li>
+                        <li>Development by independent modules</li>
+                        <li>Comprehensive testing and quality control</li>
+                        <li>Complete technical documentation</li>
+                        <li>Training for your team</li>
+                        <li>30-day maintenance included</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: Variable by scope
+                </div>
+                <div class="package-note">
+                    <i class="fas fa-calendar-check"></i> Personalized quote based on specific needs
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title" style="margin-top: 15mm;">
+            <div class="section-icon"><i class="fas fa-robot"></i></div>
+            Process Automation
+        </div>
+        
+        <div class="package-grid">
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">G. Automation Starter</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="9900" data-usd="570" data-eur="530">$570</span>
+                        <span class="package-price-sub">Includes 3 workflows</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Analysis session + 3 automation workflows + complete documentation + team training.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Process analysis session</li>
+                        <li>3 automation workflows (ex: lead → CRM → WhatsApp)</li>
+                        <li>Integration with existing tools</li>
+                        <li>Complete system documentation</li>
+                        <li>Training for your team</li>
+                        <li>14-day initial support</li>
+                        <li>Manual process optimization</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 1–2 weeks
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-title">
+                <i class="fas fa-sync-alt"></i> Automation Maintenance
+            </div>
+            <div class="info-content">
+                <strong>$85 to $230 USD/month</strong> • Includes support, monitoring, minor adjustments, and updates.
+                <br><em>Note: If using n8n Cloud, cost depends on executions. For self-hosted solutions, can run on an economical VPS.</em>
+            </div>
+        </div>
+        
+        <div class="page-number">Page 3</div>
+    </div>
+    
+    <!-- Page 4: AI, Mobile Apps -->
+    <div class="container">
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-brain"></i></div>
+            AI Solutions
+        </div>
+        
+        <div class="package-grid">
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">H. Intelligent Chatbot</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="12000" data-usd="690" data-eur="640">from $690</span>
+                        <span class="package-price-sub">Lead capture</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Web/FAQ chatbot with lead capture: flow design + prompt optimization + simple integration + training.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Intuitive conversation flow design</li>
+                        <li>Advanced prompt optimization</li>
+                        <li>Integration with your website</li>
+                        <li>Lead capture and management system</li>
+                        <li>Basic admin panel</li>
+                        <li>Initial model training</li>
+                        <li>Documentation for your team</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 2–3 weeks
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-title">
+                <i class="fas fa-chart-bar"></i> Monthly AI/Chatbot Operation
+            </div>
+            <div class="info-content">
+                <strong>From $145 USD/month</strong> • Includes adjustments, improvements, metric analysis, and ongoing maintenance.
+                <br><em>Note: If the bot uses platforms with monthly fees, typical plan ranges apply (USD 20–50 basic, 100–300 intermediate).</em>
+            </div>
+        </div>
+        
+        <div class="section-title" style="margin-top: 15mm;">
+            <div class="section-icon"><i class="fas fa-mobile-alt"></i></div>
+            Mobile Applications
+        </div>
+        
+        <div class="package-card page-break-avoid">
+            <div class="package-header">
+                <div class="package-name">I. MVP App (Cross-Platform)</div>
+                <div class="package-price">
+                    <span class="price-amount" data-mxn="45000" data-usd="2600" data-eur="2400">from $2,600</span>
+                    <span class="package-price-sub">+ admin panel</span>
+                </div>
+            </div>
+            <div class="package-description">
+                Mobile app MVP for iOS and Android with authentication, core features, notifications, and web admin panel.
+            </div>
+            <div class="package-features">
+                <ul class="feature-list">
+                    <li>Cross-platform app (iOS and Android)</li>
+                    <li>Secure authentication system</li>
+                    <li>Core application features (CRUD)</li>
+                    <li>Basic push notifications</li>
+                    <li>Web admin panel</li>
+                    <li>App store deployment (beta)</li>
+                    <li>Complete technical documentation</li>
+                    <li>30-day initial support</li>
+                </ul>
+            </div>
+            <div class="package-time">
+                <i class="fas fa-clock"></i> Estimated time: 4–8 weeks
+            </div>
+            <div class="package-note">
+                <i class="fas fa-balance-scale"></i> Reference: basic apps can start from $1,700-3,500 USD, while advanced solutions can reach $11,500+ USD
+            </div>
+        </div>
+        
+        <div class="page-number">Page 4</div>
+    </div>
+    
+    <!-- Page 5: Infrastructure -->
+    <div class="container">
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-server"></i></div>
+            Infrastructure & DevOps
+        </div>
+        
+        <div class="package-grid">
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">J. Project Dockerization</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="7900" data-usd="450" data-eur="420">$450</span>
+                        <span class="package-price-sub">Complete optimization</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Optimized Dockerfile + docker-compose + complete deployment README + detailed documentation.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Production-optimized Dockerfile</li>
+                        <li>docker-compose for local environment</li>
+                        <li>Environment variable configuration</li>
+                        <li>Complete README with instructions</li>
+                        <li>Docker image optimization</li>
+                        <li>Production deployment guide</li>
+                        <li>Security best practices</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 3–7 days
+                </div>
+            </div>
+            
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">K. Professional Deployment</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="4900" data-usd="280" data-eur="260">$280</span>
+                        <span class="package-price-sub">Complete configuration</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Configuration on Vercel/Render/Supabase/Cloudflare: staging + production with CI/CD best practices.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Environment configuration (staging/prod)</li>
+                        <li>Automated deployment with CI/CD</li>
+                        <li>Custom domain configuration</li>
+                        <li>Automatic SSL/HTTPS</li>
+                        <li>Basic backups configured</li>
+                        <li>Uptime monitoring</li>
+                        <li>Disaster recovery documentation</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 2–5 days
+                </div>
+            </div>
+            
+            <div class="package-card page-break-avoid">
+                <div class="package-header">
+                    <div class="package-name">L. Kubernetes (Specific Cases)</div>
+                    <div class="package-price">
+                        <span class="price-amount" data-mxn="24000" data-usd="1380" data-eur="1280">from $1,380</span>
+                        <span class="package-price-sub">For advanced projects only</span>
+                    </div>
+                </div>
+                <div class="package-description">
+                    Base configuration + deployment + complete guide + basic monitoring. Only for projects with specific scalability needs.
+                </div>
+                <div class="package-features">
+                    <ul class="feature-list">
+                        <li>Basic Kubernetes cluster</li>
+                        <li>Pod and service configuration</li>
+                        <li>Basic auto-scaling</li>
+                        <li>Health checks and readiness probes</li>
+                        <li>Basic monitoring (Prometheus/Grafana)</li>
+                        <li>Complete operational documentation</li>
+                        <li>Initial training for your team</li>
+                    </ul>
+                </div>
+                <div class="package-time">
+                    <i class="fas fa-clock"></i> Estimated time: 2–4 weeks
+                </div>
+                <div class="package-note">
+                    <i class="fas fa-exclamation-triangle"></i> Only recommended for projects with specific scalability and high availability requirements
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-number">Page 5</div>
+    </div>
+    
+    <!-- Page 6: Add-ons and Process -->
+    <div class="container">
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-plus-circle"></i></div>
+            Additional Services
+        </div>
+        
+        <table class="table page-break-avoid">
+            <thead>
+                <tr>
+                    <th width="60%">Service</th>
+                    <th width="40%">Price from</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="fas fa-edit"></i> Copywriting / content (per page)</td>
+                    <td><strong class="price-amount" data-mxn="2000" data-usd="115" data-eur="107">$115</strong></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-palette"></i> Light branding (simple logo + palette + typography)</td>
+                    <td><strong class="price-amount" data-mxn="3500" data-usd="200" data-eur="185">$200</strong></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-search"></i> On-page SEO (basic analysis and optimization)</td>
+                    <td><strong class="price-amount" data-mxn="3000" data-usd="170" data-eur="158">$170</strong></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-language"></i> Multi-language (translation and implementation for 1 additional language)</td>
+                    <td><strong class="price-amount" data-mxn="4000" data-usd="230" data-eur="213">$230</strong></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-bolt"></i> 24–48h urgency (time multiplier)</td>
+                    <td><strong>x1.5 of base cost</strong></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-plug"></i> Third-party API integration (per API)</td>
+                    <td><strong class="price-range" data-mxn-min="2500" data-mxn-max="7000" data-usd-min="145" data-usd-max="400" data-eur-min="134" data-eur-max="375">$145 – $400</strong></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-tools"></i> Monthly maintenance (support, updates, backups)</td>
+                    <td><strong class="price-range" data-mxn-min="1500" data-mxn-max="5000" data-usd-min="85" data-usd-max="290" data-eur-min="79" data-eur-max="263">$85 – $290/month</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-project-diagram"></i></div>
+            Our Work Process
+        </div>
+        
+        <div class="process page-break-avoid">
+            <div class="process-title">
+                <i class="fas fa-road"></i> Proven methodology for your project's success
+            </div>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Initial diagnostic<br>(30 minutes free)</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Detailed proposal<br>+ scope definition</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Initial payment<br>(50% of project)</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Design/<br>Technical architecture</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-text">Implementation<br>+ periodic updates</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-text">Joint review<br>(1-2 rounds of adjustments)</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">7</div>
+                    <div class="step-text">Final delivery<br>+ production deployment</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">8</div>
+                    <div class="step-text">Quality guarantee<br>(14 days for bugs)</div>
+                </div>
+            </div>
+            
+            <div class="guarantee">
+                <div class="guarantee-title">
+                    <i class="fas fa-shield-alt"></i> Quality Guarantee
+                </div>
+                <div class="guarantee-content">
+                    14 days of bug support (does not include scope changes or new features)
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-card" style="margin-top: 8mm;">
+            <div class="info-title">
+                <i class="fas fa-credit-card"></i> Payment Options
+            </div>
+            <div class="info-content">
+                <strong>Small projects:</strong> 50% upfront / 50% upon delivery<br>
+                <strong>Medium/large projects:</strong> 50% upfront / 25% at staging / 25% final delivery<br>
+                <em>We accept bank transfers and credit card payments via Stripe.</em>
+            </div>
+        </div>
+        
+        <div class="page-number">Page 6</div>
+    </div>
+    
+    <!-- Page 7: External costs and Contact -->
+    <div class="container">
+        <div class="section-title">
+            <div class="section-icon"><i class="fas fa-external-link-alt"></i></div>
+            Additional External Costs
+        </div>
+        
+        <div style="margin-bottom: 8mm;">
+            <div class="package-description" style="margin-bottom: 5mm;">
+                The following costs are additional and depend on the provider selected for your project:
+            </div>
+            
+            <div class="info-card">
+                <div class="info-title">
+                    <i class="fas fa-globe-americas"></i> Domains
+                </div>
+                <div class="info-content">
+                    • .com/.mx domain: $12–$40 USD/year<br>
+                    • .com.mx domain: $17–$46 USD/year<br>
+                    • Premium domains: vary by availability<br>
+                    <em>Recommended strategy: purchase on promotion (if available) then renew "at-cost" on Cloudflare</em>
+                </div>
+            </div>
+            
+            <div class="info-card" style="margin-top: 5mm;">
+                <div class="info-title">
+                    <i class="fas fa-cloud"></i> Hosting / Infrastructure
+                </div>
+                <div class="info-content">
+                    • Basic VPS: $9–$29 USD/month<br>
+                    • Shared hosting: $6–$17 USD/month<br>
+                    • Cloud services (Vercel, Supabase, Render): Free for starters, scales with usage<br>
+                    • Professional email: $3–$9 USD/user/month<br>
+                    • Managed databases: from $17 USD/month
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title" style="margin-top: 10mm;">
+            <div class="section-icon"><i class="fas fa-handshake"></i></div>
+            Start Your Project
+        </div>
+        
+        <div class="calculation-grid">
+            <div class="calc-box">
+                <div class="calc-title">
+                    <i class="fas fa-comments"></i> Direct Contact
+                </div>
+                <div class="calc-content">
+                    <strong>WhatsApp Business:</strong> 3340950403<br>
+                    <strong>Professional email:</strong> romeromedinar612@gmail.com<br>
+                    <em>Business hours:<br>Monday to Friday: 9:00 - 18:00<br>Saturdays: 10:00 - 14:00 (CST)</em>
+                </div>
+            </div>
+            
+            <div class="calc-box">
+                <div class="calc-title">
+                    <i class="fas fa-calendar-check"></i> First Step
+                </div>
+                <div class="calc-content">
+                    <strong>1. Schedule a diagnostic call</strong> (30 min, no cost)<br>
+                    <strong>2. We analyze your needs</strong> and objectives<br>
+                    <strong>3. Receive a personalized proposal</strong><br>
+                    <strong>4. Define scope and timeline</strong><br><br>
+                    <em>No commitments, completely transparent</em>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footnote">
+            * Prices in <span class="currency-display">USD</span>. Exchange rates are approximate.<br>
+            * All prices are estimates and may vary based on complexity and specific scope.<br>
+            * Valid for 2025. Subject to change without notice.<br>
+            * Contacto directo: WhatsApp Business 3340950403 &bull; romeromedinar612@gmail.com</div>
+        
+        <div class="page-number">Page 7</div>
+    </div>
+
+    <script>
+        // Currency conversion rates (approximate)
+        const exchangeRates = {
+            usd: 1,
+            mxn: 0.058, // 1 MXN ≈ 0.058 USD (approximate)
+            eur: 1.08   // 1 USD ≈ 0.93 EUR, so 1 EUR ≈ 1.08 USD
+        };
+        
+        // Currency symbols
+        const currencySymbols = {
+            usd: '$',
+            mxn: '$',
+            eur: '€'
+        };
+        
+        // Current currency
+        let currentCurrency = 'usd';
+        
+        // Update prices based on selected currency
+        function updatePrices(currency) {
+            currentCurrency = currency;
+            
+            // Update all single price elements
+            document.querySelectorAll('.price-amount').forEach(element => {
+                const mxnValue = parseFloat(element.getAttribute('data-mxn'));
+                let convertedValue;
+                
+                if (currency === 'usd') {
+                    convertedValue = mxnValue * exchangeRates.mxn;
+                } else if (currency === 'eur') {
+                    convertedValue = mxnValue * exchangeRates.mxn / exchangeRates.eur;
+                } else { // mxn
+                    convertedValue = mxnValue;
+                }
+                
+                // Format the number
+                const formattedValue = formatCurrency(convertedValue, currency);
+                element.textContent = formattedValue;
+            });
+            
+            // Update price ranges
+            document.querySelectorAll('.price-range').forEach(element => {
+                const mxnMin = parseFloat(element.getAttribute('data-mxn-min'));
+                const mxnMax = parseFloat(element.getAttribute('data-mxn-max'));
+                let convertedMin, convertedMax;
+                
+                if (currency === 'usd') {
+                    convertedMin = mxnMin * exchangeRates.mxn;
+                    convertedMax = mxnMax * exchangeRates.mxn;
+                } else if (currency === 'eur') {
+                    convertedMin = mxnMin * exchangeRates.mxn / exchangeRates.eur;
+                    convertedMax = mxnMax * exchangeRates.mxn / exchangeRates.eur;
+                } else { // mxn
+                    convertedMin = mxnMin;
+                    convertedMax = mxnMax;
+                }
+                
+                // Format the numbers
+                const formattedMin = formatCurrency(convertedMin, currency, true);
+                const formattedMax = formatCurrency(convertedMax, currency);
+                
+                if (element.textContent.includes('–')) {
+                    element.textContent = `${formattedMin} – ${formattedMax}`;
+                } else if (element.textContent.includes('-')) {
+                    element.textContent = `${formattedMin} - ${formattedMax}`;
+                }
+            });
+            
+            // Update currency display text
+            document.querySelectorAll('.currency-display').forEach(element => {
+                element.textContent = currency.toUpperCase();
+            });
+            
+            // Update version text
+            const versionElement = document.querySelector('.version');
+            if (versionElement) {
+                const date = new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                versionElement.textContent = `Service Catalog • ${date} • Prices in ${currency.toUpperCase()}`;
+            }
+        }
+        
+        // Format currency value
+        function formatCurrency(value, currency, isMin = false) {
+            const symbol = currencySymbols[currency];
+            let formattedValue;
+            
+            if (currency === 'mxn') {
+                // For MXN, use Mexican formatting (no cents for larger amounts)
+                if (value >= 1000) {
+                    formattedValue = Math.round(value).toLocaleString('en-US');
+                } else {
+                    formattedValue = Math.round(value).toLocaleString('en-US');
+                }
+            } else {
+                // For USD and EUR, show cents for values under 100
+                if (value < 100 && value > 10 && !isMin) {
+                    formattedValue = value.toLocaleString('en-US', { 
+                        minimumFractionDigits: 0, 
+                        maximumFractionDigits: 0 
+                    });
+                } else {
+                    formattedValue = Math.round(value).toLocaleString('en-US');
+                }
+            }
+            
+            // Add "from" prefix for minimum values in ranges
+            const prefix = isMin ? 'from ' : '';
+            
+            return `${prefix}${symbol}${formattedValue}`;
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = today.toLocaleDateString('en-US', options);
+            
+            // Update version with date
+            const versionElement = document.querySelector('.version');
+            if (versionElement) {
+                versionElement.textContent = `Service Catalog • ${dateString} • Prices in USD`;
+            }
+            
+            // Set up currency selector
+            const currencySelect = document.getElementById('currencySelect');
+            if (currencySelect) {
+                currencySelect.addEventListener('change', function() {
+                    updatePrices(this.value);
+                });
+            }
+            
+            // Initial currency update
+            updatePrices('usd');
+            
+            // Configure for printing
+            window.addEventListener('beforeprint', function() {
+                // Remove all color backgrounds to save ink
+                document.querySelectorAll('.specialties, .process, .calc-box, .package-card, .info-card, .value-section, .table thead').forEach(el => {
+                    el.style.background = 'transparent';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
